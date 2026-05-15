@@ -54,7 +54,7 @@ PREDICTION_COLUMN_NAME=prediction
 
 ## GitHub + Deploy
 
-- Frontend деплоится на Vercel (корень: `frontend`).
+- Frontend деплоится на Vercel (корень: `/`, repository root).
 - Python API деплоится на VM (systemd + uvicorn) или Docker.
 - В `.github/workflows/ci.yml` добавлены базовые проверки.
 
@@ -63,9 +63,20 @@ PREDICTION_COLUMN_NAME=prediction
 
 If `https://<project>.vercel.app/` returns `404: NOT_FOUND`, verify:
 
-1. Vercel Project -> Settings -> **Root Directory** is set to `frontend`.
+1. Vercel Project -> Settings -> **Root Directory** is set to `/` (repository root).
 2. Framework preset is **Next.js**.
 3. Environment variable `NEXT_PUBLIC_API_BASE_URL` is configured for Production/Preview.
 4. Redeploy from the latest commit.
 
-This repository also includes `vercel.json` with explicit build/install commands for monorepo structure.
+`vercel.json` intentionally minimal so Vercel uses standard Next.js root build.
+
+
+## Important: frontend now lives at repository root for Vercel
+
+To avoid repeated `404: NOT_FOUND` caused by monorepo root-directory misconfiguration,
+the deployable Next.js app is now also provided at repository root (`app/`, `package.json`).
+
+Use these Vercel settings:
+- Root Directory: `/` (repository root)
+- Framework: Next.js
+- Build command: default (`next build`)
