@@ -57,3 +57,15 @@ PREDICTION_COLUMN_NAME=prediction
 - Frontend деплоится на Vercel (корень: `frontend`).
 - Python API деплоится на VM (systemd + uvicorn) или Docker.
 - В `.github/workflows/ci.yml` добавлены базовые проверки.
+
+
+## Vercel deployment checklist (fix for 404 NOT_FOUND)
+
+If `https://<project>.vercel.app/` returns `404: NOT_FOUND`, verify:
+
+1. Vercel Project -> Settings -> **Root Directory** is set to `frontend`.
+2. Framework preset is **Next.js**.
+3. Environment variable `NEXT_PUBLIC_API_BASE_URL` is configured for Production/Preview.
+4. Redeploy from the latest commit.
+
+This repository also includes `vercel.json` with explicit build/install commands for monorepo structure.
